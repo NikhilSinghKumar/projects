@@ -1,0 +1,29 @@
+.container{
+    position: relative;
+    height: 45vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(17, 16, 16);
+}
+
+#count{
+    color: white;
+
+}
+
+
+#down{
+    position: sticky;
+    height: 7vw;
+    width: 30%;
+    background-color: blueviolet;
+    text-align: center;
+    font-size: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-family: 'Orbitron', sans-serif; */
+    color: white;
+}
