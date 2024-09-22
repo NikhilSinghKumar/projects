@@ -1,12 +1,18 @@
+/* eslint-disable react/prop-types */
 import TodoItem from "./TodoItem";
 
-function TodoItems() {
+function TodoItems({ todoList, delteItem }) {
   return (
     <>
       <div className="row">
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
+        {todoList.map((items) => (
+          <TodoItem
+            key={items}
+            todoName={items.name}
+            todoDate={items.date}
+            onDeleteButtonClick={delteItem}
+          />
+        ))}
       </div>
     </>
   );

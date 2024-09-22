@@ -1,13 +1,16 @@
-function TodoItem() {
-  let todoName = "Buy Milk";
-  let todoDate = "20/09/2024";
-
+/* eslint-disable react/prop-types */
+function TodoItem({ todoName, todoDate, onDeleteButtonClick }) {
   return (
     <>
       <div className="col-4">{todoName}</div>
       <div className="col-4">{todoDate}</div>
       <div className="col-4">
-        <button className="btn btn-danger">Delete</button>
+        <button
+          className="btn btn-danger"
+          onClick={() => onDeleteButtonClick(todoName)}
+        >
+          Delete
+        </button>
       </div>
     </>
   );
