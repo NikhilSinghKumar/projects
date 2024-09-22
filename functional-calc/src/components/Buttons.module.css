@@ -1,0 +1,12 @@
+.buttons{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  }
+
+  .eachBtn{
+    width: 45px;
+    height: 45px;
+    margin: 3px;
+    border-radius: 10px;
+  }
