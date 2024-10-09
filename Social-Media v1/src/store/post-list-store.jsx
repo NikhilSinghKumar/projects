@@ -1,10 +1,16 @@
 /* eslint-disable react/prop-types */
-import { createContext, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
 
 export const PostList = createContext({
   postList: [],
+  fetching: false,
   addPost: () => {},
-  addInitialPosts: () => {},
   deletePost: () => {},
 });
 
@@ -24,19 +30,15 @@ function postListReducer(currentPostList, action) {
 
 export default function PostListProvider({ children }) {
   const [postList, dispatchPostList] = useReducer(postListReducer, []);
+  const [fetching, setFetching] = useState(false);
 
-  function addPost(userId, postTitle, postBody, reactions, tags) {
+  function addPost(post) {
+    console.log("post adding");
     dispatchPostList({
       type: "ADD_POST",
-      payload: {
-        id: Date.now(),
-        title: postTitle,
-        body: postBody,
-        reactions: reactions,
-        userId: userId,
-        tags: tags,
-      },
+      payload: post,
     });
+    console.log("post added");
   }
 
   function addInitialPosts(posts) {
@@ -46,22 +48,42 @@ export default function PostListProvider({ children }) {
     });
   }
 
-  function deletePost(postId) {
-    dispatchPostList({
-      type: "DELETE_POST",
-      payload: {
-        postId: postId,
-      },
-    });
-  }
+  const postDelete = useCallback(
+    function deletePost(postId) {
+      dispatchPostList({
+        type: "DELETE_POST",
+        payload: {
+          postId: postId,
+        },
+      });
+    },
+    [dispatchPostList]
+  );
+
+  useEffect(() => {
+    setFetching(true);
+    // useEffect optimization
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        addInitialPosts(data.posts);
+        setFetching(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
     <PostList.Provider
       value={{
         postList: postList,
+        fetching: fetching,
         addPost: addPost,
-        addInitialPosts: addInitialPosts,
-        deletePost: deletePost,
+        deletePost: postDelete,
       }}
     >
       {children}
