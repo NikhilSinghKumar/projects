@@ -33,12 +33,10 @@ export default function PostListProvider({ children }) {
   const [fetching, setFetching] = useState(false);
 
   function addPost(post) {
-    console.log("post adding");
     dispatchPostList({
       type: "ADD_POST",
       payload: post,
     });
-    console.log("post added");
   }
 
   function addInitialPosts(posts) {
